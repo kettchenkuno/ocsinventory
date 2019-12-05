@@ -1,187 +1,187 @@
-#!/bin/bash
-# Autor: Robson Vaamonde
+#! / bin / bash
+# Author: Robson Vaamonde
 # Site: www.procedimentosemti.com.br
 # Facebook: facebook.com/ProcedimentosEmTI
 # Facebook: facebook.com/BoraParaPratica
 # YouTube: youtube.com/BoraParaPratica
-# Data de criação: 31/05/2016
-# Data de atualização: 04/01/2018
-# Versão: 0.12
-# Testado e homologado para a versão do Ubuntu Server 16.04 LTS x64
-# Kernel >= 4.4.x
+# Date created: 05/31/2016
+# Updated Date: 01/04/2018
+# Version: 0.12
+# Tested and approved for Ubuntu Server 16.04 LTS x64 version
+# Kernel> = 4.4.x
 #
-# Instalação do OCS Inventory Agent
+# OCS Inventory Agent Installation
 #
-# Utilizar o comando: sudo -i para executar o script
+# Using the command: sudo -i to run the script
 #
 
-# Arquivo de configuração de parâmetros
+# Parameter Configuration File
 source 00-parametros.sh
 #
 
-# Caminho para o Log do script
-LOG=$VARLOGPATH/$LOGSCRIPT
+# Path to script log
+LOG = $ VARLOGPATH / $ LOGSCRIPT
 #
 
-if [ "$USUARIO" == "0" ]
+if [ " $ USER "  ==  " 0 " ]
 then
-	if [ "$UBUNTU" == "16.04" ]
+	if [ " $ UBUNTU "  ==  " 16.04 " ]
 		then
-			if [ "$KERNEL" == "4.4" ]
+			if [ " $ KERNEL "  ==  " 4.4 " ]
 				then
 					 clear
 					 
-					 echo -e "Usuário é `whoami`, continuando a executar o $LOGSCRIPT"
-					 #Exportando a variável do Debian Frontend Noninteractive para não solicitar interação com o usuário
-					 export DEBIAN_FRONTEND=noninteractive
+					 echo -e " User is ` whoami ` continuing to run the $ LOGSCRIPT "
+					 # Exporting the Debian Frontend Noninteractive Variable to Not Request User Interaction
+					 export DEBIAN_FRONTEND = noninteractive
 					 echo
-					 echo  ============================================================ >> $LOG
+					 echo   ================================================= =========== >>  $ LOG
 					 
 					 
-					 echo -e "Download do OCS Inventory Agent do Github, pressione <Enter> para continuar"
+					 echo -e " Download Github OCS Inventory Agent, press <Enter> to continue "
 					 read
 					 sleep 2
 					 
-					 #Fazendo o download do código fonte do OCS Inventory Agent
-					 wget https://github.com/OCSInventory-NG/UnixAgent/releases/download/$OCSAGENTVERSION &>> $LOG
-					 echo -e "Download feito com sucesso!!!"
+					 # Downloading OCS Inventory Agent Source Code
+					 wget https://github.com/OCSInventory-NG/UnixAgent/releases/download/ $ OCSAGENTVERSION  & >>  $ LOG
+					 echo -e " Downloaded successfully !!! "
 					 sleep 2
 					 
-					 #Descompactando o arquivos do OCS Inventory Agent
-					 tar -zxvf $OCSAGENTTAR &>> $LOG
-					 echo -e "Descompactação feita com sucesso!!!"
+					 # Unzipping the OCS Inventory Agent Files
+					 tar -zxvf $ OCSAGENTTAR  & >>  $ LOG
+					 echo -e " Unzipping successfully !!! "
 					 sleep 2
 					 
-					 #Acessando a pasta do OCS Inventory Agent
-					 cd $OCSAGENTINSTALL
-					 echo -e "Acessando a pasta do OCS Inventory Agent"
+					 # Accessing the OCS Inventory Agent Folder
+					 cd  $ OCSAGENTINSTALL
+					 echo -e " Accessing the OCS Inventory Agent Folder "
 					 sleep 2
 					 
-					 #Criando o diretório de Log do OCS Inventory Agent
-					 mkdir -v /var/log/ocsinventory-agent/ &>> $LOG
-					 echo -e "Criação do diretório de log feito com sucesso!!!"
+					 # Creating the OCS Inventory Agent Log Directory
+					 mkdir -v / var / log / ocsinventory-agent / & >>  $ LOG
+					 echo -e " Log directory creation succeeded !!! "
 					 sleep 2
 					 
-					 #Criando o arquivo de Log do OCS Inventory Agent
+					 # Creating the OCS Inventory Agent Log File
 					 touch /var/log/ocsinventory-agent/activity.log
-					 echo -e "Criação do arquivo de log feito com sucesso!!!"
+					 echo -e " Creating the log file successfully !!! "
 					 sleep 2
 					 
-					 echo -e "Download do OCS Inventory Agent feito com Sucesso!!!, pressione <Enter> para continuar."
+					 echo -e " Downloading OCS Inventory Agent Successfully !!!, press <Enter> to continue. "
 					 echo
-					 echo -e "CUIDADO!!! com as opções que serão solicitadas no decorrer da instalação."
+					 echo -e " CAUTION !!! with the options that will be requested during the installation. "
 					 read
 					 clear
 					 
-					 #Configurando o arquivo Makefile.PL do OCS Inventory Agent
-					 perl Makefile.PL &>> $LOG
+					 # Configuring the OCS Inventory Agent Makefile.PL File
+					 perl Makefile.PL & >>  $ LOG
 					 
-					 #Compilando o OCS Inventory Agent
-					 make &>> $LOG
+					 # Compiling OCS Inventory Agent
+					 make & >>  $ LOG
 					 
-					 #Instalando o OCS Inventory Agent
+					 # Installing OCS Inventory Agent
 					 make install
 					 
-					 #MENSAGENS QUE SERÃO SOLICIDATAS NA INSTALAÇÃO DO OCS INVENTORY AGENT:
+					 # MESSAGES TO BE REQUESTED AT OCS INVENTORY AGENT INSTALLATION:
 					 #
-					 #01: Please enter 'y' or 'n'?> [y] <-- pressione <Enter>
-					 #02: Where do you want to write the configuration file? <-- digite 2 pressione <Enter>
-					 #03: Do you want to create the directory /etc/ocsinventory-agent? <-- pressione <Enter>
-					 #04: Should the ond linux_agent settings be imported? <-- pressione <Enter>
-					 #05: What is the address of your ocs server? digite: http://localhost/ocsinventory, pressione <Enter>
-					 #06: Do you need credential for the server? (You probably don't) <-- pressione <Enter>
-					 #07: Do you want to apply an administrative tag on this machine? <-- pressione <Enter>
-					 #08: tag?> digite: server, pressione <Enter>
-					 #09: Do yo want to install the cron task in /etc/cron.d? <-- pressione <Enter>
-					 #10: Where do you want the agent to store its files? <-- pressione <Enter>
-					 #11: Do you want to create the? <-- pressione <Enter>
-					 #11: Should I remove the old linux_agent? <-- pressione <Enter>
-					 #12: Do you want to activate debug configuration option? <-- pressione <Enter>
-					 #13: Do you want to use OCS Inventory NG Unix Unified agent log file? <-- pressione <Enter>
-					 #14: Specify log file path you want to use?> digite: /var/log/ocsinventory-agent/activity.log, pressione <Enter>
-					 #15: Do you want disable SSL CA verification configuration option (not recommended)? digite: y, pressione <Enter>
-					 #16: Do you want to set CA certificate chain file path? digite: n, pressione <Enter>
-					 #17: Do you want to use OCS-Inventory software deployment feature? <-- pressione <Enter>
-					 #18: Do you want to use OCS-Inventory SNMP scans features? <-- pressione <Enter>
-					 #19: Do you want to send an inventory of this machine? <-- pressione <Enter>
+					 # 01: Please enter 'y' or 'n'?> [Y] <- press <Enter>
+					 # 02: Where do you want to write the configuration file? <- type 2 press <Enter>
+					 # 03: Do you want to create the directory / etc / ocsinventory-agent? <- press <Enter>
+					 # 04: Should the ond linux_agent settings be imported? <- press <Enter>
+					 # 05: What is the address of your ocs server? type: http: // localhost / ocsinventory, press <Enter>
+					 # 06: Do you need credential for the server? (You probably don't) <- press <Enter>
+					 # 07: Do you want to apply an administrative tag on this machine? <- press <Enter>
+					 # 08: tag?> Type: server, press <Enter>
+					 # 09: Do you want to install the cron task in /etc/cron.d? <- press <Enter>
+					 # 10: Where do you want the agent to store its files? <- press <Enter>
+					 # 11: Do you want to create the? <- press <Enter>
+					 # 11: Should I remove the old linux_agent? <- press <Enter>
+					 # 12: Do you want to activate debug configuration option? <- press <Enter>
+					 # 13: Do you want to use OCS Inventory NG Unix Unified agent log file? <- press <Enter>
+					 # 14: Specify log file path you want to use?> Type: /var/log/ocsinventory-agent/activity.log, press <Enter>
+					 # 15: Do you want to disable SSL CA verification configuration option (not recommended)? type: y, press <Enter>
+					 # 16: Do you want to set CA certificate chain file path? type: n, press <Enter>
+					 # 17: Do you want to use OCS-Inventory software deployment feature? <- press <Enter>
+					 # 18: Do you want to use OCS-Inventory SNMP scans features? <- press <Enter>
+					 # 19: Do you want to send an inventory of this machine? <- press <Enter>
 					 
-					 #Saindo do diretório do OCS Inventory Agent
+					 # Leaving the OCS Inventory Agent Directory
 					 cd ..
 					 
 					 echo
-					 echo -e "Instalação do OCS Inventory Agent feito com sucesso, pressione <Enter> para continuar"
+					 echo -e " Successful OCS Inventory Agent installation, press <Enter> to continue "
 					 read
 					 sleep 2
 					 clear
 					 
-					 echo -e "Editando o arquivo do OCS Inventory Agent, pressione <Enter> para continuar"
+					 echo -e " Editing OCS Inventory Agent file, press <Enter> to continue "
 					 read
 					 
-					 #Arquivo de configuração do OCS Inventory Agent (Cliente)
-					 #Fazendo o backup do arquivo de configuração original
-					 mv -v /etc/ocsinventory-agent/ocsinventory-agent.cfg /etc/ocsinventory-agent/ocsinventory-agent.cfg.bkp &>> $LOG
-					 echo -e "Backup feito com sucesso!!!"
+					 # OCS Inventory Agent Configuration File (Client)
+					 # Backing up the original configuration file
+					 mv -v /etc/ocsinventory-agent/ocsinventory-agent.cfg /etc/ocsinventory-agent/ocsinventory-agent.cfg.bkp & >>  $ LOG
+					 echo -e " Backup made successfully !!! "
 					 sleep 2
 					 
-					 #Atualizando para o novo arquivo de configuração
-					 cp -v conf/ocsinventory-agent.cfg /etc/ocsinventory-agent/ &>> $LOG
-					 echo -e "Atualização feita com sucesso!!!"
+					 # Upgrading to new configuration file
+					 cp -v conf / ocsinventory-agent.cfg / etc / ocsinventory-agent / & >>  $ LOG
+					 echo -e " Update was successful !!! "
 					 sleep 2
 					 
-					 #Editando o arquivo de configuração
+					 # Editing the configuration file
 					 vim /etc/ocsinventory-agent/ocsinventory-agent.cfg
 					 
-					 #Forçando a atualização do ocsinventory-agent
+					 # Forcing ocsinventory-agent to update
 					 ocsinventory-agent
-					 echo -e "Agent atualizado com sucesso!!!"
+					 echo -e " Agent updated successfully !!! "
 					 sleep 2
 					 
-					 echo -e "Arquivo editado com sucesso!!!, pressione <Enter> para continuar"
+					 echo -e " File successfully edited !!!, press <Enter> to continue "
 					 read
 					 sleep 2
 					 clear
 					 
-					 echo -e "Editando o arquivo do Agendamento do OCS Inventory Agent, pressione <Enter> para continuar"
+					 echo -e " Editing OCS Inventory Agent Schedule file, press <Enter> to continue "
 					 read
 					 
-					 #Atualizando para o novo arquivo de configuração
-					 cp -v conf/ocsinventory-agent-cron /etc/cron.d/ocsinventory-agent &>> $LOG
-					 echo -e "Atualização feita com sucesso!!!"
+					 # Upgrading to new configuration file
+					 cp -v conf / ocsinventory-agent-cron /etc/cron.d/ocsinventory-agent & >>  $ LOG
+					 echo -e " Update was successful !!! "
 					 sleep 2
 					 
-					 #Editando o arquivo de configuração
+					 # Editing the configuration file
 					 vim /etc/cron.d/ocsinventory-agent
 					 
-					 echo -e "Arquivo editado com sucesso, pressione <Enter> para continuar"
+					 echo -e " File successfully edited, press <Enter> to continue "
 					 read
 					 sleep 2
 					 clear
 					 
-					 echo -e "Fim do $LOGSCRIPT em: `date`" >> $LOG
-					 echo -e "Instalação do OCS Inventory Agent Feito com Sucesso!!!!!"
+					 echo -e " End of $ LOGSCRIPT on: ` date ` "  >>  $ LOG
+					 echo -e " Successful OCS Inventory Agent Installation !!!!! "
 					 echo
-					 # Script para calcular o tempo gasto para a execução do ocs_agent.sh
-						 DATAFINAL=`date +%s`
-						 SOMA=`expr $DATAFINAL - $DATAINICIAL`
-						 RESULTADO=`expr 10800 + $SOMA`
-						 TEMPO=`date -d @$RESULTADO +%H:%M:%S`
-					 echo -e "Tempo gasto para execução do ocs_agent.sh: $TEMPO"
-					 echo -e "Pressione <Enter> para reinicializar o servidor: `hostname`"
+					 # Script to calculate the time it takes to execute ocs_agent.sh
+						 FinalDate = ` date +% s '
+						 SOMA = ` expr $ FinalDate - $ DATAINICIAL '
+						 RESULT = ` expr 10800 + $ SOMA `
+						 TIME = ` date -d @ $ RESULT +% H:% M:% S`
+					 echo -e " Time taken to execute ocs_agent.sh: $ TIME "
+					 echo -e " Press <Enter> to reboot the server: ` hostname ` "
 					 read
 					 sleep 2
 					 reboot
 					 else
-						 echo -e "Versão do Kernel: $KERNEL não homologada para esse script, versão: >= 4.4 "
-						 echo -e "Pressione <Enter> para finalizar o script"
+						 echo -e " Kernel Version: $ KERNEL not approved for this script, version:> = 4.4 "
+						 echo -e " Press <Enter> to end script "
 						 read
 			fi
 	 	 else
-			 echo -e "Distribuição GNU/Linux: `lsb_release -is` não homologada para esse script, versão: $UBUNTU"
-			 echo -e "Pressione <Enter> para finalizar o script"
+			 echo -e " GNU / Linux Distribution: ` lsb_release -is ` not approved for this script, version: $ UBUNTU "
+			 echo -e " Press <Enter> to end script "
 			 read
 	fi
 else
-	 echo -e "Usuário não é ROOT, execute o comando com a opção: sudo -i <Enter> depois digite a senha do usuário `whoami`"
-	 echo -e "Pressione <Enter> para finalizar o script"
+	 echo -e " User is not ROOT, run the command with the option: sudo -i <Enter> then enter the user's password ` whoami ` "
+	 echo -e " Press <Enter> to end script "
 	read
 fi
