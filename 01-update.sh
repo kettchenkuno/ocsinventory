@@ -1,149 +1,149 @@
-#!/bin/bash
-# Autor: Robson Vaamonde
+#! / bin / bash
+# Author: Robson Vaamonde
 # Site: www.procedimentosemti.com.br
 # Facebook: facebook.com/ProcedimentosEmTI
 # Facebook: facebook.com/BoraParaPratica
 # YouTube: youtube.com/BoraParaPratica
-# Data de criação: 31/05/2016
-# Data de atualização: 11/06/2019
-# Versão: 0.14
-# Testado e homologado para a versão do Ubuntu Server 16.04.x LTS x64
-# Kernel >= 4.4.x
+# Date created: 05/31/2016
+# Updated Date: 06/11/2019
+# Version: 0.14
+# Tested and approved for Ubuntu Server 16.04.x ​​LTS x64 version
+# Kernel> = 4.4.x
 #
-# Instalação dos pacotes principais para a primeira etapa, indicado para a distribuição GNU/Linux Ubuntu Server 16.04.x LTS x64
+# Installation of core packages for the first step, suitable for GNU / Linux distribution Ubuntu Server 16.04.x ​​LTS x64
 #
-# Atualização das listas do Apt-Get
-# Atualização dos Aplicativos Instalados
-# Atualização da Distribuição Ubuntu Server (Kernel)
-# Auto-Limpeza do Apt-Get
-# Limpeza do repositório Local do Apt-Get
-# Reinicialização do Servidor
+# Update Apt-Get Lists
+# Update Installed Applications
+# Ubuntu Server Distribution (Kernel) Update
+# Apt-Get Self Cleaning
+# Apt-Get Local repository cleanup
+# Server Reboot
 #
-# Utilizar o comando: sudo -i para executar o script
+# Using the command: sudo -i to run the script
 #
 
-# Arquivo de configuração dos parâmetros
+# Parameter Configuration File
 source 00-parametros.sh
 #
 
-# Caminho do arquivo para o Log do script
-LOG=$VARLOGPATH/$LOGSCRIPT
+# File path to Script log
+LOG = $ VARLOGPATH / $ LOGSCRIPT
 #
 
-# Verificação da criação do Diretório de Log, usado somente no script de atualização
-if [ -e "$VARLOGPATH" ]; then
-	echo -e "Diretório: $VARLOGPATH já existe, continuando com o script"
+# Verify log directory creation, used only in update script
+if [ -e  " $ VARLOGPATH " ] ;  then
+	echo -e " Directory: $ VARLOGPATH already exists, continuing with script "
 	sleep 3
 else
-	echo -e "Diretório: $VARLOGPATH não existe, criando o diretório..."
-	mkdir $VARLOGPATH
-	echo -e "Diretório criado com sucesso!!!, continuando com o script"
+	echo -e " Directory: $ VARLOGPATH does not exist, creating directory ... "
+	mkdir $ VARLOGPATH
+	echo -e " Directory successfully created !!!, continuing with script "
 	sleep 3
 fi
 
 
-if [ "$USUARIO" == "0" ]
+if [ " $ USER "  ==  " 0 " ]
 then
-	if [ "$UBUNTU" == "16.04" ]
+	if [ " $ UBUNTU "  ==  " 16.04 " ]
 		then
-			if [ "$KERNEL" == "4.4" ]
+			if [ " $ KERNEL "  ==  " 4.4 " ]
 				then
 					 clear
-					 echo -e "Usuário é `whoami`, continuando a executar o $LOGSCRIPT"
+					 echo -e " User is ` whoami ` continuing to run the $ LOGSCRIPT "
 					 echo
-					 echo -e "Atualização das Listas do Apt-Get"
-					 echo -e "Atualização dos Aplicativos Instalados"
-					 echo -e "Atualização da Distribuição Ubuntu Server (Kernel)"
-					 echo -e "Remoção dos aplicativos desnecessários"
-					 echo -e "Limpando o repositório Local do Apt-Get (Cache)"
+					 echo -e " Apt-Get List Update "
+					 echo -e " Installed Applications Update "
+					 echo -e " Ubuntu Server (Kernel) Distribution Update "
+					 echo -e " Removing unnecessary applications "
+					 echo -e " Cleaning up the local Apt-Get (Cache) repository "
 					 echo
-					 echo -e "Após o término o Servidor será reinicializado"
+					 echo -e " Upon termination the Server will reboot "
 					 echo
-					 echo  ============================================================ >> $LOG
+					 echo   ================================================= =========== >>  $ LOG
 					 
-					 echo -e "Atualizando as listas do Apt-Get, aguarde..."
+					 echo -e " Updating Apt-Get lists, please wait ... "
 					 
-					 #Exportando a variável do Debian Frontend Noninteractive para não solicitar interação com o usuário
-					 export DEBIAN_FRONTEND=noninteractive
+					 # Exporting the Debian Frontend Noninteractive Variable to Not Request User Interaction
+					 export DEBIAN_FRONTEND = noninteractive
 					 
-					 #Atualizando as listas do apt-get
-					 apt-get update &>> $LOG
+					 # Updating apt-get lists
+					 apt-get update & >>  $ LOG
 					 
-					 echo -e "Listas atualizadas com sucesso!!!, continuando com o script"
+					 echo -e " Lists updated successfully !!!, continuing the script "
 					 echo
-					 echo  ============================================================ >> $LOG
+					 echo   ================================================= =========== >>  $ LOG
 
-					 echo -e "Atualizando os pacotes instalados, aguarde..."
+					 echo -e " Updating installed packages, please wait ... "
 					 
-					 #Fazendo a atualização de todos os pacotes instalados no servidor
-					 apt-get -o Dpkg::Options::="--force-confold" upgrade -q -y --force-yes &>> $LOG
+					 # Upgrading All Packages Installed on the Server
+					 apt-get -o Dpkg :: Options :: = " --force-confold " upgrade -q -y --force-yes & >>  $ LOG
 					 
-					 echo -e "Pacotes atualizados com sucesso!!!, continuando com o script"
+					 echo -e " Packages updated successfully !!!, continuing the script "
 					 echo
-					 echo  ============================================================ >> $LOG
+					 echo   ================================================= =========== >>  $ LOG
 
-					 echo -e "Atualizando a distribuição é o Kernel, aguarde..."
-					 echo -e "Kernel atual: `uname -r`"
+					 echo -e " Updating distribution is Kernel, please wait ... "
+					 echo -e " Current kernel: ` uname -r ` "
 					 
-					 #Fazendo a atualização da distribuição e do Kernel
-					 apt-get -o Dpkg::Options::="--force-confold" dist-upgrade -q -y --force-yes &>> $LOG
+					 # Upgrading Distribution and Kernel
+					 apt-get -o Dpkg :: Options :: = " --force-confold " dist-upgrade -q -y --force-yes & >>  $ LOG
 					 
 					 echo
-					 echo -e "Distribuição e Kernel atualizados, versões instaladas."
-					 #Listando os pacotes instalados, filtrando por palavras, cortando por colunas.
-					 dpkg --list | grep linux-image-4.4 | cut -d' ' -f 3
+					 echo -e " Updated distribution and kernel, installed versions. "
+					 # Listing installed packages, filtering by words, cutting by columns.
+					 dpkg --list | grep linux-image-4.4 | cut -d '  ' -f 3
 					 
-					 echo -e "Distribuição e Kernel atualizadas com sucesso!!!, continuando com o script"
+					 echo -e " Distribution and Kernel updated successfully !!!, continuing with script "
 					 echo
-					 echo ============================================================ >> $LOG
+					 echo ================================================= =========== >>  $ LOG
 
-					 echo -e "Remoção dos aplicativos desnecessários, aguarde..."
+					 echo -e " Removing unnecessary applications, please wait ... "
 					 
-					 #Fazendo a autoremoção de aplicativas instalados
-					 apt-get -y autoremove &>> $LOG
-					 apt-get -y autoclean &>> $LOG
+					 # Auto-removing installed apps
+					 apt-get -y autoremove & >>  $ LOG
+					 apt-get -y autoclean & >>  $ LOG
 					 
-					 echo -e "Remoção dos aplicativos concluída com sucesso!!!, continuando com o script"
+					 echo -e " Application removal completed successfully !!!, continuing with script "
 					 echo
-					 echo ============================================================ >> $LOG
-					 echo >> $LOG
+					 echo ================================================= =========== >>  $ LOG
+					 echo  >>  $ LOG
 					 
-					 echo -e "Limpando o cache do Apt-Get, aguarde..."
+					 echo -e " Clearing Apt-Get cache, please wait ... "
 					 
-					 #Limpando o diretório de cache do apt-get
-					 apt-get clean &>> $LOG
+					 # Clearing apt-get cache directory
+					 apt-get clean & >>  $ LOG
 					 
-					 echo -e "Cache limpo com sucesso!!!, continuando com o script"
+					 echo -e " Cache successfully cleared !!! continuing script "
 					 echo
-					 echo ============================================================ >> $LOG
-					 echo >> $LOG
-					 echo -e "Fim do $LOGSCRIPT em: `date`" >> $LOG
+					 echo ================================================= =========== >>  $ LOG
+					 echo  >>  $ LOG
+					 echo -e " End of $ LOGSCRIPT on: ` date ` "  >>  $ LOG
 
 					 echo
-					 echo -e "Atualização das Listas, Atualização dos Aplicativos e Atualização do Kernel feito com sucesso!!!!!"
+					 echo -e " List Update, Application Update and Kernel Update Succeeded !!!!! "
 					 echo
-					 # Script para calcular o tempo gasto para a execução
-						 DATAFINAL=`date +%s`
-						 SOMA=`expr $DATAFINAL - $DATAINICIAL`
-						 RESULTADO=`expr 10800 + $SOMA`
-						 TEMPO=`date -d @$RESULTADO +%H:%M:%S`
-					 echo -e "Tempo gasto para execução do 01-update.sh: $TEMPO"
-					 echo -e "Pressione <Enter> para reinicializar o servidor: `hostname`"
+					 # Script to calculate the time taken to execute
+						 FinalDate = ` date +% s '
+						 SOMA = ` expr $ FinalDate - $ DATAINICIAL '
+						 RESULT = ` expr 10800 + $ SOMA `
+						 TIME = ` date -d @ $ RESULT +% H:% M:% S`
+					 echo -e " Time taken to execute 01-update.sh: $ TIME "
+					 echo -e " Press <Enter> to reboot the server: ` hostname ` "
 					 read
 					 sleep 2
 					 reboot
 					 else
-						 echo -e "Versão do Kernel: $KERNEL não homologada para esse script, versão: >= 4.4 "
-						 echo -e "Pressione <Enter> para finalizar o script"
+						 echo -e " Kernel Version: $ KERNEL not approved for this script, version:> = 4.4 "
+						 echo -e " Press <Enter> to end script "
 						 read
 			fi
 	 	 else
-			 echo -e "Distribuição GNU/Linux: `lsb_release -is` não homologada para esse script, versão: $UBUNTU"
-			 echo -e "Pressione <Enter> para finalizar o script"
+			 echo -e " GNU / Linux Distribution: ` lsb_release -is ` not approved for this script, version: $ UBUNTU "
+			 echo -e " Press <Enter> to end script "
 			 read
 	fi
 else
-	 echo -e "Usuário não é ROOT, execute o comando com a opção: sudo -i <Enter> depois digite a senha do usuário `whoami`"
-	 echo -e "Pressione <Enter> para finalizar o script"
+	 echo -e " User is not ROOT, run the command with the option: sudo -i <Enter> then enter the user's password ` whoami ` "
+	 echo -e " Press <Enter> to end script "
 	read
 fi
