@@ -1,195 +1,195 @@
-#!/bin/bash
-# Autor: Robson Vaamonde
+#! / bin / bash
+# Author: Robson Vaamonde
 # Site: www.procedimentosemti.com.br
 # Facebook: facebook.com/ProcedimentosEmTI
 # Facebook: facebook.com/BoraParaPratica
 # YouTube: youtube.com/BoraParaPratica
-# Data de criação: 31/05/2016
-# Data de atualização: 11/06/2019
-# Versão: 0.14
-# Testado e homologado para a versão do Ubuntu Server 16.04 LTS x64
-# Kernel >= 4.4.x
+# Date created: 05/31/2016
+# Updated Date: 06/11/2019
+# Version: 0.14
+# Tested and approved for Ubuntu Server 16.04 LTS x64 version
+# Kernel> = 4.4.x
 #
-# Instalação do OCS Inventory Server
-# Instalação do OCS Inventory Reports
+# OCS Inventory Server Installation
+# Installing OCS Inventory Reports
 #
-# Utilizar o comando: sudo -i para executar o script
+# Using the command: sudo -i to run the script
 #
 
-# Arquivo de configuração de parâmetros
+# Parameter Configuration File
 source 00-parametros.sh
 #
 
-# Caminho para o Log do script
-LOG=$VARLOGPATH/$LOGSCRIPT
+# Path to script log
+LOG = $ VARLOGPATH / $ LOGSCRIPT
 #
 
-if [ "$USUARIO" == "0" ]
+if [ " $ USER "  ==  " 0 " ]
 then
-	if [ "$UBUNTU" == "16.04" ]
+	if [ " $ UBUNTU "  ==  " 16.04 " ]
 		then
-			if [ "$KERNEL" == "4.4" ]
+			if [ " $ KERNEL "  ==  " 4.4 " ]
 				then
 					 clear
 					 
-					 echo -e "Usuário é `whoami`, continuando a executar o $LOGSCRIPT"
+					 echo -e " User is ` whoami ` continuing to run the $ LOGSCRIPT "
 					 
-					 #Exportando a variável do Debian Frontend Noninteractive para não solicitar interação com o usuário
-					 export DEBIAN_FRONTEND=noninteractive
+					 # Exporting the Debian Frontend Noninteractive Variable to Not Request User Interaction
+					 export DEBIAN_FRONTEND = noninteractive
 					 echo
 					 
-					 echo  ============================================================ >> $LOG
+					 echo   ================================================= =========== >>  $ LOG
 					 
-					 echo -e "Após a instalação, acessar a url: http://`hostname`/ocsreports e finalizar a instalação"
-					 echo -e "Usuário padrão após a instalação: admin | Senha padrão: admin"
+					 echo -e " After installation, go to url: http: // ` hostname ` / ocsreports and finish the installation "
+					 echo -e " Default user after installation: admin | Default password: admin "
 					 echo
 					 
-					 echo -e "Download do OCS Inventory Server do Github, pressione <Enter> para continuar"
+					 echo -e " Download OCS Inventory Server from Github, press <Enter> to continue "
 					 read
 					 sleep 2
-					 echo -e "Aguarde, fazendo o download do OCS Inventory..."
+					 echo -e " Wait, downloading OCS Inventory ... "
 					 
-					 #Fazendo o download do código fonte do OCS Inventory Server
-					 wget https://github.com/OCSInventory-NG/OCSInventory-ocsreports/releases/download/$OCSVERSION &>> $LOG
-					 echo -e "Download feito com sucesso!!!!"
+					 # Downloading OCS Inventory Server Source Code
+					 wget https://github.com/OCSInventory-NG/OCSInventory-ocsreports/releases/download/ $ OCSVERSION  & >>  $ LOG
+					 echo -e " Downloaded successfully !!!! "
 					 sleep 2
 					 
-					 #Descompactando o arquivos do OCS Inventory Server
-					 tar -zxvf $OCSTAR &>> $LOG
-					 echo -e "Arquivo descompactado com sucesso!!!!"
+					 # Unzipping the OCS Inventory Server Files
+					 tar -zxvf $ OCSTAR  & >>  $ LOG
+					 echo -e " File unzipped successfully !!!! "
 					 sleep 2
 					 
-					 #Acessando a pasta do OCS Inventory Server
-					 cd $OCSINSTALL
-					 echo -e "Pasta acessada com sucesso!!!!"
+					 # Accessing the OCS Inventory Server Folder
+					 cd  $ OCSINSTALL
+					 echo -e " Folder successfully accessed !!!! "
 					 sleep 2
 					 
 					 echo
-					 echo -e "CUIDADO!!! com as opções que serão solicitadas no decorrer da instalação."
-					 echo -e "Download do OCS Inventory Server feito com Sucesso!!!, pressione <Enter> para instalar"
+					 echo -e " CAUTION !!! with the options that will be requested during the installation. "
+					 echo -e " Successfully download OCS Inventory Server !!!, press <Enter> to install "
 					 echo
 					 read
 					 clear
 					 
-					 #Executando a instalação do OCS Inventory Server e Reports
+					 # Performing OCS Inventory Server and Reports Setup
 					 ./setup.sh
 					 
-					 #MENSAGENS QUE SERÃO SOLICIDATAS NA INSTALAÇÃO DO OCS INVENTORY SERVER:
-					 #01. Do you wish to continue ([y]/n): y <-- digite y pressione <Enter>;
-					 #02. Which host is running database server [localhost]?: Deixe o padrão pressione <Enter>;
-					 #03. On which port is running database server [3306]?: Deixe o padrão pressione <Enter>;
-					 #04. Where is Apache daemon binary [/usr/sbin/apache2ctl]?: Deixe o padrão pressione <Enter>;
-					 #05. Where is Apache main configuration file [/etc/apache2/apache2.conf]?: Deixe o padrão pressione <Enter>;
-					 #06. Which user account is running Apache Web Server [www-data]?: Deixe o padrão pressione <Enter>;
-					 #07. Which user group is running Apache web server [www-data]?: Deixe o padrão pressione <Enter>;
-					 #08. Where is Apache Include configuration directory [/etc/apache2/conf-available]?: Deixe o padrão pressione <Enter>;
-					 #09. Where is PERL Intrepreter binary [/usr/bin/perl]?: Deixe o padrão pressione <Enter>;
-					 #10. Do you wish to setup Communication server on this computer ([y]/n)?: y <-- digite y pressione <Enter>;
-					 #11. Where to put Communication server log directory [/var/log/ocsinventory-server]?: Deixe o padrão pressione <Enter>;
-					 #12. Where to put Communication server plugins configuration files [/etc/ocsinventory-server/plugins]?: Deixe o padrão pressione <Enter>;
-					 #13. Where to put Communication server plugins Perl module files [/etc/ocsinventory-server/perl]?: Deixe o padrão pressione <Enter>;
-					 #14. Do you  wish to setup Rest API server on this computer ([y]/n)?: y <-- digite y pressione <Enter>;
-					 #15. Where do you want the API code to be store [/usr/local/share/perl/5.22.1]?: Deixe o padrão pressione <Enter>;
-					 #16. Do you allow Setup renaming Communication Server Apache configuration file to 'z-ocsinventory-server.conf' ([y]/n)?: y <-- digite y pressione <Enter>;
-					 #17. Do you wish to setup Administration Server (Web Administration Console) on this computer ([y]/n)?: y <-- digite y pressione <Enter>;
-					 #18. Do you wish to continue ([y]/n)?: y <-- digite y pressione <Enter>;
-					 #19. Where to copy Administration Server static files for PHP Web Console [/usr/share/ocsinventory-reports]?: Deixe o padrão pressione <Enter>;
-					 #20. Where to create writable/cache directories for deployment packages administration console logs, IPDiscover and SNMP [/var/lib/ocsinventory-reports]?: Deixe o padrão pressione <Enter>;
-					 #APÓS A INSTALAÇÃO VIA NAVEGADOR, REMOVER O ARQUIVO install
+					 # MESSAGES TO BE REQUESTED IN OCS INVENTORY SERVER INSTALLATION:
+					 # 01. Do you wish to continue ([y] / n): y <- type y press <Enter>;
+					 # 02. Which host is running database server [localhost] ?: Leave the default press <Enter>;
+					 # 03. On which port is running database server [3306] ?: Leave the default press <Enter>;
+					 # 04. Where is Apache binary daemon [/ usr / sbin / apache2ctl] ?: Leave the default press <Enter>;
+					 # 05.Where is Apache main configuration file [/etc/apache2/apache2.conf] ?: Leave the default press <Enter>;
+					 # 06. Which user account is running Apache Web Server [www-data] ?: Leave the default press <Enter>;
+					 # 07. Which user group is running Apache web server [www-data] ?: Leave the default press <Enter>;
+					 # 08.Where is Apache Include configuration directory [/ etc / apache2 / conf-available] ?: Leave the default press <Enter>;
+					 # 09. Where is PERL Intrepreter binary [/ usr / bin / perl] ?: Leave the default press <Enter>;
+					 # 10. Do you wish to setup Communication server on this computer ([y] / n) ?: y <- type y press <Enter>;
+					 # 11. Where to put Communication server log directory [/ var / log / ocsinventory-server] ?: Leave the default press <Enter>;
+					 # 12. Where to put Communication server plugins configuration files [/ etc / ocsinventory-server / plugins] ?: Leave the default press <Enter>;
+					 # 13. Where to put Communication server plugins Perl module files [/ etc / ocsinventory-server / perl] ?: Leave the default press <Enter>;
+					 # 14. Do you wish to setup Rest API server on this computer ([y] / n) ?: y <- type y press <Enter>;
+					 # 15. Where do you want the API code to be store [/usr/local/share/perl/5.22.1] ?: Leave the default press <Enter>;
+					 # 16. Do you allow Setup renaming Communication Server Apache configuration file to 'z-ocsinventory-server.conf' ([y] / n) ?: y <- type y press <Enter>;
+					 # 17. Do you wish to setup Administration Server (Web Administration Console) on this computer ([y] / n) ?: y <- type y press <Enter>;
+					 # 18. Do you wish to continue ([y] / n) ?: y <- type y press <Enter>;
+					 # 19. Where to copy Administration Server static files for PHP Web Console [/ usr / share / ocsinventory-reports] ?: Leave the default press <Enter>;
+					 # 20. Where to create writable / cache directories for deployment packages administration console logs, IPDiscover and SNMP [/ var / lib / ocsinventory-reports] ?: Leave the default press <Enter>;
+					 # AFTER INSTALLATION BY NAVIGATOR, REMOVE FILE install
 					 
 					 echo
-					 #Atualizando as informações do Apache2 para o suporte ao OCS Inventory Server e Reports
-					 a2dissite 000-default &>> $LOG
-					 echo -e "Apache 2 atualizado com sucesso!!!"
+					 # Updating Apache2 information for OCS Inventory Server and Reports support
+					 a2disite 000-default & >>  $ LOG
+					 echo -e " Apache 2 successfully updated !!! "
 					 sleep 2
 					 
 					 echo
-					 #Habilitando o conf do OCS Inventory Reports no Apache2
-					 a2enconf ocsinventory-reports &>> $LOG
-					 echo -e "Virtual host do OCS Inventory Reports habilitado com sucesso!!!"
+					 # Enabling OCS Inventory Reports conf in Apache2
+					 a2enconf ocsinventory-reports & >>  $ LOG
+					 echo -e " OCS Inventory Reports Virtual Host Successfully Enabled !!! "
 					 sleep 2
 					 
 					 echo
-					 #Habilitando o conf do OCS Inventory Server no Apache2
-					 a2enconf z-ocsinventory-server &>> $LOG
-					 echo -e "Virtual host do OCS Inventory Server habilitado com sucesso!!!"
+					 # Enabling OCS Inventory Server conf on Apache2
+					 a2enconf z-ocsinventory-server & >>  $ LOG
+					 echo -e " OCS Inventory Server Virtual Host Successfully Enabled !!! "
 					 sleep 2
 					 
 					 echo
-					 #Alterando as permissões do diretório /var/lib/ocsinventory-reports
-					 chmod -Rv 775 /var/lib/ocsinventory-reports/ &>> $LOG
-					 echo -e "Permissões do OCS Inventory Reports alteradas com sucesso!!!"
+					 # Changing the permissions of the / var / lib / ocsinventory-reports directory
+					 chmod -Rv 775 / var / lib / ocsinventory-reports / & >>  $ LOG
+					 echo -e " OCS Inventory Reports permissions changed successfully !!! "
 					 sleep 2
 					 
 					 echo
-					 #Alterando o dono e grupo padrão do diretório /var/lib/ocsinventory-reports
-					 chown -Rv www-data.www-data /var/lib/ocsinventory-reports/ &>> $LOG
-					 echo -e "Dono/Grupo do OCS Inventory Reports alteradas com sucesso!!!"
+					 # Changing the Default Owner and Group of the / var / lib / ocsinventory-reports Directory
+					 chown -rv www-data.www-data / var / lib / ocsinventory-reports / & >>  $ LOG
+					 echo -e " OCS Inventory Reports Owner / Group changed successfully !!! "
 					 sleep 2
 					 
 					 echo
-					 #Reinicializando o Apache2
+					 # Rebooting Apache2
 					 sudo service apache2 restart
-					 echo -e "Apache 2 reinicializado com sucesso!!!"
+					 echo -e " Apache 2 successfully rebooted !!! "
 					 sleep 2
 					 
-					 #Fazendo o backup do arquivo de Log da Instalação do OCS Inventory
-					 cp -v *.log $VARLOGPATH/ &>> $LOG
-					 echo -e "Backup do Log de Instalação do OCS Inventory feito com sucesso!!!"
+					 # Backing up the OCS Inventory Setup Log File
+					 cp -v * .log $ VARLOGPATH / & >>  $ LOG
+					 echo -e " OCS Inventory Installation Log Backup Successfully Made !!! "
 					 
-					 #Saindo do diretório do OCS Inventory Server
+					 # Leaving the OCS Inventory Server Directory
 					 cd ..
 					 
 					 echo
-					 echo -e "Instalação do OCS Inventory Server e Reports Service feito com sucesso!!!, pressione <Enter> para continuar"
+					 echo -e " Installation of OCS Inventory Server and Reports Service was successful !!!, press <Enter> to continue "
 					 read
 					 sleep 2
 					 clear
 					 				 
-					 echo -e "Removendo aplicativos desnecessários, aguarde..."
+					 echo -e " Removing unnecessary applications, please wait ... "
 					 
-					 #Removendo arquivos que não são mais utilizados
-					 apt-get autoremove &>> $LOG
+					 # Removing Unused Files
+					 apt-get autoremove & >>  $ LOG
 					 
-					 echo -e "Aplicativos removidos com sucesso!!!, continuando com o script!!!"
+					 echo -e " Apps successfully removed !!!, continuing with the script !!! "
 					 echo
-					 echo ============================================================ >> $LOG
+					 echo ================================================= =========== >>  $ LOG
 
-					 echo -e "Limpando o Cache do Apt-Get, aguarde..."
+					 echo -e " Clearing Apt-Get Cache, please wait ... "
 					 
-					 #Limpando o diretório de cache do apt-get
-					 apt-get clean &>> $LOG
+					 # Clearing apt-get cache directory
+					 apt-get clean & >>  $ LOG
 					 
-					 echo -e "Cache Limpo com Sucesso!!!"
+					 echo -e " Cache Cleaned Successfully !!! "
 					 echo
-					 echo ============================================================ >> $LOG
+					 echo ================================================= =========== >>  $ LOG
 
-					 echo -e "Fim do $LOGSCRIPT em: `date`" >> $LOG
-					 echo -e "Instalação do OCS Inventory Server Feito com Sucesso!!!!!"
-					 echo -e "Após a reinicialização, acessar a URL: http://`hostname`/ocsreports para finalizar a instalação"
+					 echo -e " End of $ LOGSCRIPT on: ` date ` "  >>  $ LOG
+					 echo -e " Installing OCS Inventory Server Successfully !!!!! "
+					 echo -e " After rebooting, go to URL: http: // ` hostname ` / ocsreports to finish the installation "
 					 echo
-					 # Script para calcular o tempo gasto para a execução do ocs_server.sh
-						 DATAFINAL=`date +%s`
-						 SOMA=`expr $DATAFINAL - $DATAINICIAL`
-						 RESULTADO=`expr 10800 + $SOMA`
-						 TEMPO=`date -d @$RESULTADO +%H:%M:%S`
-					 echo -e "Tempo gasto para execução do ocs_server.sh: $TEMPO"
-					 echo -e "Pressione <Enter> para reinicializar o servidor: `hostname`"
+					 # Script to calculate the time it takes to execute ocs_server.sh
+						 FinalDate = ` date +% s '
+						 SOMA = ` expr $ FinalDate - $ DATAINICIAL '
+						 RESULT = ` expr 10800 + $ SOMA `
+						 TIME = ` date -d @ $ RESULT +% H:% M:% S`
+					 echo -e " Time taken to execute ocs_server.sh: $ TIME "
+					 echo -e " Press <Enter> to reboot the server: ` hostname ` "
 					 read
 					 sleep 2
 					 reboot
 					 else
-						 echo -e "Versão do Kernel: $KERNEL não homologada para esse script, versão: >= 4.4 "
-						 echo -e "Pressione <Enter> para finalizar o script"
+						 echo -e " Kernel Version: $ KERNEL not approved for this script, version:> = 4.4 "
+						 echo -e " Press <Enter> to end script "
 						 read
 			fi
 	 	 else
-			 echo -e "Distribuição GNU/Linux: `lsb_release -is` não homologada para esse script, versão: $UBUNTU"
-			 echo -e "Pressione <Enter> para finalizar o script"
+			 echo -e " GNU / Linux Distribution: ` lsb_release -is ` not approved for this script, version: $ UBUNTU "
+			 echo -e " Press <Enter> to end script "
 			 read
 	fi
 else
-	 echo -e "Usuário não é ROOT, execute o comando com a opção: sudo -i <Enter> depois digite a senha do usuário `whoami`"
-	 echo -e "Pressione <Enter> para finalizar o script"
+	 echo -e " User is not ROOT, run the command with the option: sudo -i <Enter> then enter the user's password ` whoami ` "
+	 echo -e " Press <Enter> to end script "
 	read
 fi
