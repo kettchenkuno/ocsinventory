@@ -1,4 +1,4 @@
-#! / bin / bash
+#!/bin/bash
 # Author: Robson Vaamonde
 # Site: www.procedimentosemti.com.br
 # Facebook: facebook.com/ProcedimentosEmTI
@@ -14,12 +14,12 @@
 #
 
 # Script log path variable used in this course
-VARLOGPATH = " / var / log / ocsinstall "
+VARLOGPATH = "/var/log/ocsinstall "
 #
 
 # Variable for Script Log File Creation
 # echo screen printing | $ 0 file name environment variable | cut -d '/' delimiter -f2 show second column
-LOGSCRIPT = ` echo $ 0  | cut -d ' / ' -f2 `
+LOGSCRIPT = `echo $ 0|cut -d ' / ' -f2 `
 #
 
 # Start Date Variable to calculate Script execution time
