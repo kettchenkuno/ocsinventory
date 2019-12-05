@@ -1,92 +1,92 @@
-#!/bin/bash
-# Autor: Robson Vaamonde
+#! / bin / bash
+# Author: Robson Vaamonde
 # Site: www.procedimentosemti.com.br
 # Facebook: facebook.com/ProcedimentosEmTI
 # Facebook: facebook.com/BoraParaPratica
 # YouTube: youtube.com/BoraParaPratica
-# Data de criação: 31/05/2016
-# Data de atualização: 15/07/2019
-# Versão: 0.22
-# Testado e homologado para a versão do Ubuntu Server 16.04.x LTS x64
-# Kernel >= 4.4.x
+# Date created: 05/31/2016
+# Updated Date: 07/15/2019
+# Version: 12:22
+# Tested and approved for Ubuntu Server 16.04.x ​​LTS x64 version
+# Kernel> = 4.4.x
 #
-# Instalação do LAMP Server
-# Instalação do Apache2
-# Instalação do MySQL Server
-# Instalação do PhpMyAdmin
-# Instalação do PHP, Perl, Python
-# Instalação das Dependências via Perl CPAN
-# Instalação das Dependências do Netdata
+# LAMP Server Installation
+# Apache2 Installation
+# MySQL Server Installation
+# PhpMyAdmin Installation
+# PHP installation, Perl, Python
+# Perl CPAN Installation
+# Installing Netdata Dependencies
 #
-# Nesse script está sendo instalado todas as dependências do OCS Inventory Server, OCS Inventory Agent, Fusion Iventory, 
-# GLPI e do Netdata;
-# Nas linhas do apt-get install todas as dependências já estão sendo instaladas;
-# Nas linhas do perl -e -MCPAN está sendo instalada as dependências do OCS Server e Agent.
+# This script is installing all OCS Inventory Server, OCS Inventory Agent, Fusion Iventory,
+# GLPI and Netdata;
+# In apt-get install lines all dependencies are already being installed;
+# In the perl -e -MCPAN lines the OCS Server and Agent dependencies are being installed.
 #
-# Utilizar o comando: sudo -i para executar o script
+# Using the command: sudo -i to run the script
 #
 
-# Arquivo de configuração dos parâmetros
+# Parameter Configuration File
 source 00-parametros.sh
 #
 
-# Caminho para arquivo do Log do script
-LOG=$VARLOGPATH/$LOGSCRIPT
-#h
+# Path to script log file
+LOG = $ VARLOGPATH / $ LOGSCRIPT
+# h
 
-if [ "$USUARIO" == "0" ]
+if [ " $ USER "  ==  " 0 " ]
 then
-	if [ "$UBUNTU" == "16.04" ]
+	if [ " $ UBUNTU "  ==  " 16.04 " ]
 		then
-			if [ "$KERNEL" == "4.4" ]
+			if [ " $ KERNEL "  ==  " 4.4 " ]
 				then
 					 clear
-					 echo -e "Usuário é `whoami`, continuando a executar o $LOGSCRIPT"
+					 echo -e " User is ` whoami ` continuing to run the $ LOGSCRIPT "
 					 echo
-					 echo  ============================================================ >> $LOG
+					 echo   ================================================= =========== >>  $ LOG
 					 
-					 echo -e "Atualizando as listas do Apt-Get, aguarde..."
+					 echo -e " Updating Apt-Get lists, please wait ... "
 					 
-					 #Exportando a variável do Debian Frontend Noninteractive para não solicitar interação com o usuário
-					 export DEBIAN_FRONTEND=noninteractive
+					 # Exporting the Debian Frontend Noninteractive Variable to Not Request User Interaction
+					 export DEBIAN_FRONTEND = noninteractive
 					 
-					 #Atualizando as listas do apt-get
-					 apt-get update &>> $LOG 
+					 # Updating apt-get lists
+					 apt-get update & >>  $ LOG 
 					 
-					 echo -e "Listas atualizadas com sucesso!!!, continuando com o script."
+					 echo -e " Lists updated successfully !!!, continuing with the script. "
 					 echo
-					 echo  ============================================================ >> $LOG
+					 echo   ================================================= =========== >>  $ LOG
 
-					 echo -e "Instalando o LAMP Server (Linux, Apache2, MySQL, PHP7, Perl, Python), aguarde..."
+					 echo -e " Installing LAMP Server (Linux, Apache2, MySQL, PHP7, Perl, Python), please wait ... "
 					 
-					 #Instalação dos principais pacotes do OCS Inventory e do GLPI integrado com o Apache2 e MySQL
-					 #Configurando as variáveis do Debconf para a instalação do MySQL em modo Noninteractive
-					 echo "mysql-server-5.7 mysql-server/root_password password $PASSWORD" |  debconf-set-selections
-					 echo "mysql-server-5.7 mysql-server/root_password_again password $PASSWORD" |  debconf-set-selections
+					 # Installation of core OCS Inventory and GLPI packages integrated with Apache2 and MySQL
+					 # Setting Debconf Variables for Noninteractive MySQL Installation
+					 echo  " mysql-server-5.7 mysql-server / root_password password $ PASSWORD "  |   debconf-set-selections
+					 echo  " mysql-server-5.7 mysql-server / root_password_again password $ PASSWORD "  |   debconf-set-selections
 					 
-					 #Instalando o LAMP Server completo e todas as suas dependêncais do OCS Inventory Server, Agent, GLPI Help Desk e do Netdata
-					 apt-get -y install lamp-server^ gcc make autoconf autogen automake pkg-config uuid-dev net-tools pciutils smartmontools \
+					 # Installing the full LAMP Server and all of its OCS Inventory Server, Agent, GLPI Help Desk, and Netdata dependencies
+					 apt-get -y install lamp-server ^ gcc make autoconf autogen automake pkg-config uuid-dev net-tools pciutils smartmontools \
 					 read-edid nmap ipmitool dmidecode samba samba-common samba-testsuite snmp snmp-mibs-downloader unzip hwdata perl \
-					 perl-modules python python-dev python3-dev python-pip apache2-dev mysql-client python-pymssql python-mysqldb &>> $LOG
+					 perl-modules python python-dev python3-dev python-pip apache2-dev mysql-client python-pymssql python-mysqldb & >>  $ LOG
 					 
-					 echo -e "Instalação do LAMP Server feito com sucesso!!!, continuando com o script."
+					 echo -e " LAMP Server installation was successful !!!, continuing with the script. "
 					 echo
-					 echo  ============================================================ >> $LOG
+					 echo   ================================================= =========== >>  $ LOG
 					 
-					 echo -e "Instalando as dependências do PHP7, aguarde..."
+					 echo -e " Installing PHP7 dependencies, wait ... "
 					 					 
-					 #Instalando as dependências do PHP7 para dá suporte a recursos extras
+					 # Installing PHP7 dependencies to support extra features
 					 apt-get -y install php7.0-snmp php-mysql php7.0-dev php-mbstring php-soap php-dev php-apcu php-xmlrpc php7.0-zip \
 					 php7.0-gd php7.0-mysql php-pclzip php7.0-json php7.0-mbstring php7.0-curl php7.0-imap php7.0-ldap zlib1g-dev \
-					 php-mbstring php-gettext php-cas &>> $LOG
+					 php-mbstring php-gettext php-cas & >>  $ LOG
 					 
-					 echo -e "Instalação das dependências do PHP7 feito com sucesso!!!, continuando com o script."
+					 echo -e " PHP7 dependencies installed successfully !!!, continuing with the script. "
 					 echo
-					 echo  ============================================================ >> $LOG
+					 echo   ================================================= =========== >>  $ LOG
 					 
-					 echo -e "Instalando as dependências do Perl, aguarde..."
+					 echo -e " Installing Perl dependencies, please wait ... "
 					 					 
-					 #Instalando as dependências do Perl e GCC para dá suporte aos recursos extras do OCS Inventory e GLPI
+					 # Installing Perl and GCC dependencies to support OCS Inventory and GLPI extra features
 					 apt-get -y install libc6-dev libcompress-raw-zlib-perl libwww-perl libdigest-md5-file-perl libnet-ssleay-perl \
 					 libcrypt-ssleay-perl libnet-snmp-perl libproc-pid-file-perl libproc-daemon-perl libarchive-zip-perl \
 					 libnet-cups-perl libphp-pclzip libmysqlclient-dev libapache2-mod-perl2 libapache2-mod-php libnet-netmask-perl \
@@ -101,316 +101,316 @@ then
 					 libdatetime-perl libthread-queue-any-perl libnet-write-perl libarchive-extract-perl libjson-pp-perl \
 					 liburi-escape-xs-perl liblwp-protocol-https-perl libnet-ping-external-perl libnmap-parser-perl \
 					 libmojolicious-perl libswitch-perl libplack-perl liblwp-useragent-determined-perl libsys-syslog-perl \
-					 libdigest-hmac-perl libossp-uuid-perl &>> $LOG
+					 libdigest-hmac-perl libossp-uuid-perl & >>  $ LOG
 					 
-					 echo -e "Instalação das dependências do Perl feito com sucesso!!!, continuando com o script."
+					 echo -e " Perl dependencies installed successfully !!!, continuing with the script. "
 					 echo
-					 echo  ============================================================ >> $LOG
+					 echo   ================================================= =========== >>  $ LOG
 
-					 echo -e "Instalando o PhpMyAdmin, aguarde..."
+					 echo -e " Installing PhpMyAdmin, wait ... "
 					 
-					 #Configurando as variáveis do Debconf para a instalação do PhpMyAdmin em modo Noninteractive
-					 echo "phpmyadmin phpmyadmin/internal/skip-preseed boolean true" |  debconf-set-selections
-					 echo "phpmyadmin phpmyadmin/dbconfig-install boolean true" |  debconf-set-selections
-					 echo "phpmyadmin phpmyadmin/app-password-confirm password $APP_PASSWORD" |  debconf-set-selections
-					 echo "phpmyadmin phpmyadmin/reconfigure-webserver multiselect $WEBSERVER" |  debconf-set-selections
-					 echo "phpmyadmin phpmyadmin/mysql/admin-user string $ADMINUSER" |  debconf-set-selections
-					 echo "phpmyadmin phpmyadmin/mysql/admin-pass password $ADMIN_PASS" |  debconf-set-selections
-					 echo "phpmyadmin phpmyadmin/mysql/app-pass password $APP_PASS" |  debconf-set-selections
+					 # Setting Debconf Variables for Installing PhpMyAdmin in Noninteractive Mode
+					 echo  " phpmyadmin phpmyadmin / internal / skip-preseed boolean true "  |   debconf-set-selections
+					 echo  " phpmyadmin phpmyadmin / dbconfig-install boolean true "  |   debconf-set-selections
+					 echo  " phpmyadmin phpmyadmin / app-password-confirm password $ APP_PASSWORD "  |   debconf-set-selections
+					 echo  " phpmyadmin phpmyadmin / reconfigure-webserver multiselect $ WEBSERVER "  |   debconf-set-selections
+					 echo  " phpmyadmin phpmyadmin / mysql / admin-user string $ ADMINUSER "  |   debconf-set-selections
+					 echo  " phpmyadmin phpmyadmin / mysql / admin-pass password $ ADMIN_PASS "  |   debconf-set-selections
+					 echo  " phpmyadmin phpmyadmin / mysql / app-pass password $ APP_PASS "  |   debconf-set-selections
 					 
-					 #Instalando o PhpMyAdmin
-					 apt-get -y install phpmyadmin &>> $LOG
+					 # Installing PhpMyAdmin
+					 apt-get -y install phpmyadmin & >>  $ LOG
 					 
-					 #Atualizando as dependências do PhpMyAdmin, ativando os recursos dos módulos do PHP no Apache2
+					 # Updating PhpMyAdmin dependencies by enabling features of PHP modules in Apache2
 					 phpenmod mcrypt
 					 phpenmod mbstring
 					 
-					 echo -e "Instalação do PhpMyAdmin feito com sucesso!!!"
+					 echo -e " PhpMyAdmin successfully installed !!! "
 					 echo
 					 
-					 echo -e "Após a reinicialização, testar o servidor Apache2 na URL: http://`hostname`"
-					 echo -e "Após a reinicialização, testar o PHP na URL: http://`hostname`/phpinfo.php"
-					 echo -e "Após a reinicialização, testar o PhpMyAdmin na URL: http://`hostname`/phpmyadmin"
+					 echo -e " After rebooting, test the Apache2 server at the URL: http: // ` hostname ` "
+					 echo -e " After reboot, test PHP at URL: http: // ` hostname ` /phpinfo.php "
+					 echo -e " After rebooting, test PhpMyAdmin at the URL: http: // ` hostname ` / phpmyadmin "
 					 echo
 					 
-					 echo -e "Pressione <Enter> para continuar com o script."
+					 echo -e " Press <Enter> to continue the script. "
 					 read
 					 sleep 2
 					 clear
-					 echo ============================================================ >> $LOG
+					 echo ================================================= =========== >>  $ LOG
 
-					 echo -e "Instalação das dependências do Perl XML::Entities via CPAN, pressione <Enter> para continuar"
+					 echo -e " Perl XML :: Entities dependencies installation via CPAN, press <Enter> to continue "
 					 read
 					 
-					 #Instalação do XML::Entities
-					 #Mensagem: Would you like to configure as much as possible automatically? [Yes] <-- Pressione <Enter>
-					 perl -MCPAN -e 'install XML::Entities'
+					 # Installing the XML :: Entities
+					 # Message: Would you like to configure as much as possible automatically? [Yes] <- Press <Enter>
+					 perl -MCPAN -e ' install XML :: Entities '
 					 echo
 					 
-					 echo -e "Instalação concluída com sucesso!!!, pressione <Enter> para continuar"
+					 echo -e " Installation completed successfully !!!, press <Enter> to continue "
 					 read
 					 sleep 2
 					 clear
 					 
-					 echo -e "Instalação das dependências do Perl SOAP::Lite via CPAN, pressione <Enter> para continuar"
+					 echo -e " Installing Perl SOAP :: Lite Dependencies via CPAN, press <Enter> to continue "
 					 read
 					 
-					 #Instalação do SOAP::Lite
-					 #Mensagem: WARNING: Please tell me where I can find your apache src: <-- digite q Pressione <Enter>
-					 #Esse procedimento demora um pouco, não se preocupe com a mensagem de erro no final, está associado ao Source 
-					 #do Apache
-					 perl -MCPAN -e 'install SOAP::Lite'
+					 # SOAP :: Lite Installation
+					 # Message: WARNING: Please tell me where I can find your apache src: <- type q Press <Enter>
+					 # This procedure takes a while, do not worry about the error message at the end, is associated with Source
+					 # from Apache
+					 perl -MCPAN -e ' install SOAP :: Lite '
 					 echo
 					 
-					 echo -e "Instalação concluída com sucesso!!!, pressione <Enter> para continuar"
-					 read
-					 sleep 2
-					 clear
-
-					 echo -e "Instalação das dependências do Perl Linux::Ethtool via CPAN, pressione <Enter> para continuar"
-					 read
-					 
-					 #Instalação do Linux::Ethtool
-					 perl -MCPAN -e 'install Linux::Ethtool'
-					 echo
-					 
-					 echo -e "Instalação concluída com sucesso!!!, pressione <Enter> para continuar"
+					 echo -e " Installation completed successfully !!!, press <Enter> to continue "
 					 read
 					 sleep 2
 					 clear
 
-					 echo -e "Instalação das dependências do Perl Apache2::SOAP via CPAN, pressione <Enter> para continuar"
+					 echo -e " Installing Perl Linux :: Ethtool Dependencies via CPAN, press <Enter> to continue "
 					 read
 					 
-					 #Validando a existência do diretório do Apache2
-					 if [ -d /usr/include/apache2 ]; then
-					 	echo -e "Diretório /usr/include/apache2 já existe, continuando com o script"
+					 # Installing Linux :: Ethtool
+					 perl -MCPAN -e ' install Linux :: Ethtool '
+					 echo
+					 
+					 echo -e " Installation completed successfully !!!, press <Enter> to continue "
+					 read
+					 sleep 2
+					 clear
+
+					 echo -e " Installing Perl Apache2 :: SOAP Dependencies via CPAN, Press <Enter> to continue "
+					 read
+					 
+					 # Validating the Apache2 Directory Existence
+					 if [ -d / usr / include / apache2] ;  then
+					 	echo -e " / usr / include / apache2 directory already exists, continuing with script "
 					 else
-					 	echo -e "Diretório /usr/include/apache2 não existe, criando o diretório"
+					 	echo -e " / usr / include / apache2 directory does not exist, creating directory "
 					 	
-							#Criando o diretório do SOAP para o Apache2
-					 		mkdir -v /usr/include/apache2 &>> $LOG
+							# Creating the SOAP Directory for Apache2
+					 		mkdir -v / usr / include / apache2 & >>  $ LOG
 					 	
-						echo -e "Diretório criado com sucesso!!!, continuando o script"
+						echo -e " Directory successfully created !!!, continuing script "
 						echo
 					 fi
 					 
-					 #Instalação do Apache2::SOAP				 
-					 perl -MCPAN -e 'install Apache2::SOAP'
+					 # Apache2 :: SOAP Installation				 
+					 perl -MCPAN -e ' install Apache2 :: SOAP '
 					 echo
 					 
-					 echo -e "Instalação concluída com sucesso!!!, pressione <Enter> para continuar"
+					 echo -e " Installation completed successfully !!!, press <Enter> to continue "
 					 read
 					 sleep 2
 					 clear
 
-					 echo -e "Instalação das dependências do Perl nvidia::ml via CPAN, pressione <Enter> para continuar"
+					 echo -e " Installing Perl dependencies :: ml via CPAN, press <Enter> to continue "
 					 read
 					 
-					 #Validando a existencia do Chip Gráfico da NVIDIA
-					 if [ "$NVIDIA" == "NVIDIA" ]; then
-					 	echo -e "Você tem o Chip Gráfico da NVIDIA, instalando o Módulo Perl, pressione <Enter> para continuar"
+					 # Validating the NVIDIA Graphics Chip
+					 if [ " $ NVIDIA "  ==  " NVIDIA " ] ;  then
+					 	echo -e " You have the NVIDIA Graphics Chip, installing the Perl Module, press <Enter> to continue "
 							read
 					 		
-							#Instalação do nvidia::ml
-					 		perl -MCPAN -e 'install nvidia::ml'
+							# Nvidia :: ml installation
+					 		perl -MCPAN -e ' install nvidia :: ml '
 							
-							echo -e "Instalação concluída com sucesso!!!, pressione <Enter> para continuar"
+							echo -e " Installation completed successfully !!!, press <Enter> to continue "
 					 		read
 					 		sleep 2
 					 		clear
 					 else
-					 	echo -e "Você não tem o Chip Gráfico da NVIDIA, pressione <Enter> para continuar"
+					 	echo -e " You do not have the NVIDIA Graphics Chip, press <Enter> to continue "
 							read
 					 		sleep 2
 					 		clear
 					 fi
 
-					 echo -e "Instalação das dependências do Perl Net::Ping via CPAN, pressione <Enter> para continuar"
+					 echo -e " Installing Perl Net :: Ping Dependencies via CPAN, press <Enter> to continue "
 					 read
 					 
-					 #Instalação do Net::Ping					 
-					 perl -MCPAN -e 'install Net::Ping'
+					 # Net :: Ping Installation					 
+					 perl -MCPAN -e ' install Net :: Ping '
 					 echo
 					 
-					 echo -e "Instalação concluída com sucesso!!!, pressione <Enter> para continuar"
+					 echo -e " Installation completed successfully !!!, press <Enter> to continue "
 					 read
 					 sleep 2
 					 clear
 					 					 
-					 echo -e "Instalação das dependências do LWP::UserAgent::Cached via CPAN, pressione <Enter> para continuar"
+					 echo -e " Installing LWP :: UserAgent :: Cached Dependencies via CPAN, press <Enter> to continue "
 					 read
 					 
-					 #Instalação do LWP::UserAgent::Cached
-					 #Menssagem: Append this modules to installaation queue? [y] <-- Pressione <Enter>
-					 perl -MCPAN -e 'install LWP::UserAgent::Cached'
+					 # LWP :: UserAgent :: Cached Installation
+					 # Message: Append this modules to installaation queue? [y] <- Press <Enter>
+					 perl -MCPAN -e ' install LWP :: UserAgent :: Cached '
 					 echo
 					 
-					 echo -e "Instalação concluída com sucesso!!!, pressione <Enter> para continuar"
+					 echo -e " Installation completed successfully !!!, press <Enter> to continue "
 					 read
 					 sleep 2
 					 clear
 					 					 
-					 echo -e "Instalação das dependências do Mac::SysProfile via CPAN, pressione <Enter> para continuar"
+					 echo -e " Installing Mac :: SysProfile Dependencies via CPAN, Press <Enter> to continue "
 					 read
 					 
-					 #Instalação do Mac::SysProfile
-					 perl -MCPAN -e 'install Mac::SysProfile'
+					 # Mac Installation :: SysProfile
+					 perl -MCPAN -e ' install Mac :: SysProfile '
 					 echo
 					 
-					 echo -e "Instalação concluída com sucesso!!!, pressione <Enter> para continuar"
+					 echo -e " Installation completed successfully !!!, press <Enter> to continue "
 					 read
 					 sleep 2
 					 clear
 					 
-					 echo -e "Instalação das dependências do Mojolicious::Lite via CPAN, pressione <Enter> para continuar"
+					 echo -e " Installing Mojolicious :: Lite Dependencies via CPAN, press <Enter> to continue "
 					 read
 					 
-					 #Instalação do Mojolicious::Lite
-					 perl -MCPAN -e 'install Mojolicious::Lite'
+					 # Mojolicious :: Lite Installation
+					 perl -MCPAN -e ' install Mojolicious :: Lite '
 					 echo
 					 
-					 echo -e "Instalação concluída com sucesso!!!, pressione <Enter> para continuar"
+					 echo -e " Installation completed successfully !!!, press <Enter> to continue "
 					 read
 					 sleep 2
 					 clear
 					 
-					 echo ============================================================ >> $LOG
+					 echo ================================================= =========== >>  $ LOG
 
-					 echo -e "Editando o arquivo do Apache2, pressione <Enter> para continuar"
+					 echo -e " Editing Apache2 file, press <Enter> to continue "
 					 read
 					 
-					 #Fazendo o backup do arquivo original
-					 mv -v /etc/apache2/apache2.conf /etc/apache2/apache2.conf.bkp >> $LOG
-					 echo -e "Backup feito com sucesso!!!"
+					 # Backing up the original file
+					 mv -v /etc/apache2/apache2.conf /etc/apache2/apache2.conf.bkp >>  $ LOG
+					 echo -e " Backup made successfully !!! "
 					 sleep 2
 					 
-					 #Atualização o arquivo de configuração do Apache2
-					 cp -v conf/apache2.conf /etc/apache2/apache2.conf >> $LOG
-					 echo -e "Atualização feita com sucesso!!!"
+					 # Update Apache2 configuration file
+					 cp -v conf / apache2.conf /etc/apache2/apache2.conf >>  $ LOG
+					 echo -e " Update was successful !!! "
 					 sleep 2
 					 
-					 #Editando o arquivo de configuração
+					 # Editing the configuration file
 					 vim /etc/apache2/apache2.conf
 					 
-					 #Reinicializando o serviço do Apache2 Server
+					 # Restarting the Apache2 Server Service
 					 sudo service apache2 restart
-					 echo -e "Servidor reinicializado com sucesso!!!"
+					 echo -e " Server rebooted successfully !!! "
 					 sleep 2
 					 
 					 echo
-					 echo -e "Arquivo editado com sucesso!!!, pressione <Enter> para continuar"
+					 echo -e " File successfully edited !!!, press <Enter> to continue "
 					 read
 					 sleep 2
 					 clear
 					 
-					 echo -e "Editando o arquivo do MySQL Server, pressione <Enter> para continuar"
+					 echo -e " Editing MySQL Server file, press <Enter> to continue "
 					 read
 					 
-					 #Arquivo de configuração do Banco de Dados do MySQL Server
-					 #Permitir acesso remoto ao MySQL comentando a linha: bind-address
-					 #Fazendo o backup do arquivo de configuração original
-					 mv -v /etc/mysql/mysql.conf.d/mysqld.cnf /etc/mysql/mysql.conf.d/mysqld.cnf.bkp &>> $LOG
-					 echo -e "Backup feito com sucesso!!!"
+					 # MySQL Server Database Configuration File
+					 # Allow remote access to MySQL by commenting the line: bind-address
+					 # Backing up the original configuration file
+					 mv -v /etc/mysql/mysql.conf.d/mysqld.cnf /etc/mysql/mysql.conf.d/mysqld.cnf.bkp & >>  $ LOG
+					 echo -e " Backup made successfully !!! "
 					 sleep 2
 					 
-					 #Atualizando para o novo arquivo de configuração
-					 cp -v conf/mysqld.cnf /etc/mysql/mysql.conf.d/ &>> $LOG
-					 echo -e "Atualização feita com sucesso!!!"
+					 # Upgrading to new configuration file
+					 cp -v conf / mysqld.cnf /etc/mysql/mysql.conf.d/ & >>  $ LOG
+					 echo -e " Update was successful !!! "
 					 sleep 2
 					 
-					 #Editando o arquivo de configuração
+					 # Editing the configuration file
 					 vim /etc/mysql/mysql.conf.d/mysqld.cnf
 					 
-					 #Reinicializando o serviço do MySQL Server
+					 # Rebooting the MySQL Server Service
 					 sudo service mysql restart
-					 echo -e "Servidor reinicializado com sucesso!!!"
+					 echo -e " Server rebooted successfully !!! "
 					 sleep 2
 					 
 					 echo
-					 echo -e "Arquivo editado com sucesso!!!, pressione <Enter> para continuar"
+					 echo -e " File successfully edited !!!, press <Enter> to continue "
 					 read
 					 sleep 2
 					 clear
 					 
-					 echo -e "Editando o arquivo do PHP, pressione <Enter> para continuar"
+					 echo -e " Editing PHP file, press <Enter> to continue "
 					 read
 					 
-					 #Arquivo de configuração do PHP que será utilizado pelo Apache2
-					 #Aumentar os valores das váriaveis: post_max_size e upload_max_filesize para: 250MB
-					 #Fazendo o backup do arquivo de configuração original
-					 mv -v /etc/php/7.0/apache2/php.ini /etc/php/7.0/apache2/php.ini.bkp &>> $LOG
-					 echo -e "Backup feito com sucesso!!!"
+					 # PHP configuration file that will be used by Apache2
+					 # Increase variable values: post_max_size and upload_max_filesize to: 250MB
+					 # Backing up the original configuration file
+					 mv -v /etc/php/7.0/apache2/php.ini /etc/php/7.0/apache2/php.ini.bkp & >>  $ LOG
+					 echo -e " Backup made successfully !!! "
 					 sleep 2
 					 
-					 #Atualizando para o novo arquivos de configuração
-					 cp -v conf/php.ini /etc/php/7.0/apache2/ &>> $LOG
-					 echo -e "Atualização feita com sucesso!!!"
+					 # Upgrading to new configuration files
+					 cp -v conf / php.ini /etc/php/7.0/apache2/ & >>  $ LOG
+					 echo -e " Update was successful !!! "
 					 sleep 2
 					 
-					 #Editando o arquivo de configuração
+					 # Editing the configuration file
 					 vim /etc/php/7.0/apache2/php.ini
 					 
-					 #Reinicializando o serviço do Apache2
+					 # Rebooting the Apache2 Service
 					 sudo service apache2 restart
-					 echo -e "Servidor reinicializado com sucesso!!!"
+					 echo -e " Server rebooted successfully !!! "
 					 sleep 2
 					 
 					 echo
-					 echo -e "Arquivo editado com sucesso!!!, pressione <Enter> para continuar"
+					 echo -e " File successfully edited !!!, press <Enter> to continue "
 					 read
 					 sleep 2
 					 clear
 					 
-					 echo -e "Criando o arquivo de verificação do PHP, aguarde..."
-					 cp -v conf/phpinfo.php /var/www/html &>> $LOG
-					 echo -e "Arquivo criado com sucesso!!!, continuando o script"
+					 echo -e " Creating PHP verification file, please wait ... "
+					 cp -v conf / phpinfo.php / var / www / html & >>  $ LOG
+					 echo -e " File created successfully !!!, continuing script "
 					 echo
 
-					 echo -e "Removendo aplicativos desnecessários, aguarde..."
+					 echo -e " Removing unnecessary applications, please wait ... "
 					 
-					 #Limpando o diretório de cache do apt-get
-					 apt-get autoremove &>> $LOG
-					 apt-get autoclean &>> $LOG
+					 # Clearing apt-get cache directory
+					 apt-get autoremove & >>  $ LOG
+					 apt-get autoclean & >>  $ LOG
 					 
-					 echo -e "Aplicativos removidos com sucesso!!!, continuando com o script"
+					 echo -e " Apps successfully removed !!!, continuing with script "
 					 echo
-					 echo ============================================================ >> $LOG
+					 echo ================================================= =========== >>  $ LOG
 
-					 echo -e "Limpando o Cache do Apt-Get, aguarde..."
+					 echo -e " Clearing Apt-Get Cache, please wait ... "
 					 
-					 #Limpando o diretório de cache do apt-get
-					 apt-get clean &>> $LOG
+					 # Clearing apt-get cache directory
+					 apt-get clean & >>  $ LOG
 					 
-					 echo -e "Cache Limpo com Sucesso!!!"
+					 echo -e " Cache Cleaned Successfully !!! "
 					 echo
-					 echo ============================================================ >> $LOG
+					 echo ================================================= =========== >>  $ LOG
 
-					 echo -e "Fim do $LOGSCRIPT em: `date`" >> $LOG
-					 echo -e "Instalação do LAMP Server Feito com Sucesso!!!!!"
+					 echo -e " End of $ LOGSCRIPT on: ` date ` "  >>  $ LOG
+					 echo -e " LAMP Server Installation Succeeded !!!!! "
 					 echo
-					 # Script para calcular o tempo gasto para a execução do lamp.sh
-						 DATAFINAL=`date +%s`
-						 SOMA=`expr $DATAFINAL - $DATAINICIAL`
-						 RESULTADO=`expr 10800 + $SOMA`
-						 TEMPO=`date -d @$RESULTADO +%H:%M:%S`
-					 echo -e "Tempo gasto para execução do lamp.sh: $TEMPO"
-					 echo -e "Pressione <Enter> para reinicializar o servidor: `hostname`"
+					 # Script to calculate the time it takes to execute lamp.sh
+						 FinalDate = ` date +% s '
+						 SOMA = ` expr $ FinalDate - $ DATAINICIAL '
+						 RESULT = ` expr 10800 + $ SOMA `
+						 TIME = ` date -d @ $ RESULT +% H:% M:% S`
+					 echo -e " Time taken to execute lamp.sh: $ TIME "
+					 echo -e " Press <Enter> to reboot the server: ` hostname ` "
 					 read
 					 sleep 2
 					 reboot
 					 else
-						 echo -e "Versão do Kernel: $KERNEL não homologada para esse script, versão: >= 4.4 "
-						 echo -e "Pressione <Enter> para finalizar o script"
+						 echo -e " Kernel Version: $ KERNEL not approved for this script, version:> = 4.4 "
+						 echo -e " Press <Enter> to end script "
 						 read
 			fi
 	 	 else
-			 echo -e "Distribuição GNU/Linux: `lsb_release -is` não homologada para esse script, versão: $UBUNTU"
-			 echo -e "Pressione <Enter> para finalizar o script"
+			 echo -e " GNU / Linux Distribution: ` lsb_release -is ` not approved for this script, version: $ UBUNTU "
+			 echo -e " Press <Enter> to end script "
 			 read
 	fi
 else
-	 echo -e "Usuário não é ROOT, execute o comando com a opção: sudo -i <Enter> depois digite a senha do usuário `whoami`"
-	 echo -e "Pressione <Enter> para finalizar o script"
+	 echo -e " User is not ROOT, run the command with the option: sudo -i <Enter> then enter the user's password ` whoami ` "
+	 echo -e " Press <Enter> to end script "
 	read
 fi
